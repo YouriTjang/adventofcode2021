@@ -1,5 +1,17 @@
 from functools import reduce
+
 from numpy import inf
+
+
+def sweep_window(sweep):
+    if len(sweep) < 3:
+        return 0
+    for i in range(len(sweep) - 2):
+        yield sweep[i:i+3]
+
+
+def sum_window(windows):
+    return list(map(lambda window: sum(window), windows))
 
 
 def read_file_to_sweep():
@@ -22,7 +34,9 @@ def count_increases(sweep):
 
 def main():
     sweep = read_file_to_sweep()
-    print(count_increases(sweep))
+    windows = list(sweep_window(sweep))
+    windowed_sweeps = sum_window(windows)
+    print(count_increases(windowed_sweeps))
 
 
 if __name__ == '__main__':
