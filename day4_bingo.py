@@ -160,11 +160,12 @@ class MyTestCase(unittest.TestCase):
 
         for num in nums:
             for board in boards:
-                board.check(num)
-                if board.wins():
-                    print("winning number: " + str(num))
-                    print("score: " + str(board.calc_score(num)))
-                    self.assertTrue(False) # fail to stop the game on win
+                if not board.wins():
+                    board.check(num)
+                    if board.wins():
+                        print("winning number: " + str(num))
+                        print("score: " + str(board.calc_score(num)))
+        self.assertTrue(True)
 
 
 if __name__ == '__main__':
