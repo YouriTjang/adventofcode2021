@@ -2,7 +2,7 @@ import unittest
 
 
 def read_file():
-    with open('day3_diagnostic_report.txt', 'r') as f:
+    with open('../data/day3.txt', 'r') as f:
         lines = f.readlines()
         return lines
 

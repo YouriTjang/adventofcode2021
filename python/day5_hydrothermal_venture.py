@@ -95,7 +95,7 @@ class OceanFloor:
 
 
 def read_file():
-    with open('day5_data.txt', 'r') as f:
+    with open('../data/day5.txt', 'r') as f:
         lines = f.readlines()
         return lines
 
@@ -184,7 +184,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_main(self):
         main()
-        self.assertTrue(False)
+        self.assertTrue(False)  # fail on purpose, just so it stands out ;)
 
     @parameterized.expand([
         ["R", Point(0, 0), Point(1, 0), (1, 0)],

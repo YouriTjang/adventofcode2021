@@ -15,7 +15,7 @@ def sum_window(windows):
 
 
 def read_file_to_sweep():
-    with open('sweep.txt', 'r') as f:
+    with open('../data/day1.txt', 'r') as f:
         lines = f.readlines()
         return list(map(lambda a: int(a), lines))
 

@@ -56,7 +56,7 @@ class Sub(object):
 
     @staticmethod
     def read_file_to_commands():
-        with open('commands.txt', 'r') as f:
+        with open('../data/day2.txt', 'r') as f:
             lines = f.readlines()
             return list(map(lambda a: a, lines))
 

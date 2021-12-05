@@ -51,7 +51,7 @@ class Board:
 
 
 def read_file():
-    with open('day4_bingo.txt', 'r') as f:
+    with open('../data/day4.txt', 'r') as f:
         lines = f.readlines()
         return lines
 
