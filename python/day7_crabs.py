@@ -1,36 +1,49 @@
 import unittest
 
 import numpy as np
-from multipledispatch import dispatch
+
+step_cost = np.empty(0, dtype=int)
+
+
+def fill_step_cost(input_crabs):
+    max_x = max(input_crabs)
+    global step_cost
+    step_cost = np.empty(max_x, dtype=int)
+    step_cost[0] = 0
+    for i in range(1, max_x):
+        step_cost[i] = step_cost[i - 1] + i
 
 
 def calc_cost(x: int, crabs: [int]):
     return x, sum(map(lambda c: abs(x - c), crabs))
 
 
+def calc_cost2(x: int, crabs: [int]):
+    global step_cost
+    return x, sum(map(lambda c: step_cost[int(abs(x - c))], crabs))
+
+
 def approximate_step(previous_x, crabs):
     proposals = [previous_x - 1, previous_x, previous_x + 1]
-    solutions = list(map(lambda x: calc_cost(x, crabs), proposals))
+    solutions = list(map(lambda x: calc_cost2(x, crabs), proposals))
     return min(solutions, key=lambda x: x[1])
 
 
-@dispatch(list)
 def approximate(crabs: [int]):
     start = np.median(crabs)
     previous_difference = np.inf
 
     new_min = approximate_step(start, crabs)
     if new_min[1] < previous_difference:
-        return approximate(int(new_min[0]), int(new_min[1]), crabs)
+        return approximate_next(int(new_min[0]), int(new_min[1]), crabs)
     else:
         return new_min
 
 
-@dispatch(int, int, list)
-def approximate(previous_x: int, previous_difference: int, crabs: [int]):
+def approximate_next(previous_x: int, previous_difference: int, crabs: [int]):
     new_min = approximate_step(previous_x, crabs)
     if new_min[1] < previous_difference:
-        return approximate(new_min[0], new_min[1], crabs)
+        return approximate_next(new_min[0], new_min[1], crabs)
     else:
         return new_min
 
@@ -51,6 +64,26 @@ class MyTestCase(unittest.TestCase):
     def test_main(self):
         cost = approximate(puzzle_input)
         print(cost[1])
+
+    def test_step_cost(self):
+        fill_step_cost([0, 1, 2, 3, 4, 5])
+        self.assertEqual(0, step_cost[0])
+        self.assertEqual(1, step_cost[1])
+        self.assertEqual(3, step_cost[2])
+        self.assertEqual(6, step_cost[3])
+        self.assertEqual(10, step_cost[4])
+
+    def test_example_part2(self):
+        fill_step_cost(example_data)
+        cost = approximate(example_data)
+        self.assertEqual(5, cost[0])
+        self.assertEqual(168, cost[1])
+
+
+    def test_main_part2(self):
+        fill_step_cost(puzzle_input)
+        cost = approximate(puzzle_input)
+        print(cost)
 
 
 if __name__ == '__main__':
