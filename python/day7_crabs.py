@@ -79,7 +79,6 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(5, cost[0])
         self.assertEqual(168, cost[1])
 
-
     def test_main_part2(self):
         fill_step_cost(puzzle_input)
         cost = approximate(puzzle_input)
